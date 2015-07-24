@@ -4,23 +4,29 @@
 # and shift factor) and outputs the modified string.
 
 def caesar_cipher(string, shift)
-  letters = string.split('')
-  letters.each do |i|
-    if i >='a' && i <= 'z'
-      encrypted = i.ord + shift
-      if encrypted > 122 # ASCII for 'z'; wraps around to 'a'
-        encrypted = encrypted - 26
-      end
-    elsif i >='A' && i <= 'Z'
-      encrypted = i.ord + shift
-      if encrypted > 90 # ASCII for 'Z'; wraps around to 'A'
-        encrypted = encrypted - 26
-      end
-    else
-      encrypted = i
-    end
+  begin
+    shift = shift % 26
     new_string = ""
-    print new_string << encrypted.chr
+    letters = string.split('')
+    letters.each do |i|
+      if i >='a' && i <= 'z'
+        encrypted = i.ord + shift
+        if encrypted > 122 # ASCII for 'z'; wraps around to 'a'
+          encrypted = encrypted - 26
+        end
+      elsif i >='A' && i <= 'Z'
+        encrypted = i.ord + shift
+        if encrypted > 90 # ASCII for 'Z'; wraps around to 'A'
+          encrypted = encrypted - 26
+        end
+      else
+        encrypted = i
+      end
+      new_string << encrypted.chr
+    end
+    return new_string
+  rescue TypeError
+    return "Invalid shift factor.  Please enter a number."
   end
 end
 
@@ -36,4 +42,4 @@ def get_input # optional method, takes input from console prompts
   caesar_cipher(phrase, key)
 end
 
-caesar_cipher("What a string!", 5)
+print caesar_cipher("What a string!", 5) # => Bmfy f xywnsl!
